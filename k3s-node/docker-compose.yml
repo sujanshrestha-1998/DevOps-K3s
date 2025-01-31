@@ -1,0 +1,11 @@
+services:
+  node-application:
+    image: sujanshresthahck/node-app:v2
+    environment:
+      - DB_HOST=192.168.64.25
+      - DB_USER=demo_usr
+      - DB_PASSWORD=password
+      - DB_NAME=demo_db
+    ports:
+      - "4400:4400"    
+

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-app-config
+  namespace: node-application
+data:
+  DB_HOST: "192.168.64.25"
+  DB_USER: "demo_usr"
+  DB_NAME: "demo_db"
+  DB_PASSWORD: "password"

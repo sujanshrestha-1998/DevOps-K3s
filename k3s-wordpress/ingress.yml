@@ -1,0 +1,41 @@
+# ingress.yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: wordpress-application
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    # Middleware to strip /portainer prefix
+    traefik.ingress.kubernetes.io/router.middlewares: wordpress-application-portainer-strip@kubernetescrd
+spec:
+  rules:
+  - host: wordpress.demo.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-service
+            port:
+              number: 80
+      - path: /portainer
+        pathType: Prefix
+        backend:
+          service:
+            name: portainer-service
+            port:
+              number: 9000
+
+---
+# Middleware to strip the /portainer prefix
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: portainer-strip
+  namespace: wordpress-application
+spec:
+  stripPrefix:
+    prefixes:
+      - /portainer
